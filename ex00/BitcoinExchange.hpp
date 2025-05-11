@@ -8,8 +8,7 @@
 #include <sstream>
 #include <vector>
 
-using valueMap = std::multimap<std::string, float>;
-using valuePair = std::pair<std::string, float>;
+using valueMap = std::map<std::string, float>;
 
 class BitcoinExchange
 {
