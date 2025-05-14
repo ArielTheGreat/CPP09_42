@@ -6,15 +6,16 @@
 #include <map>
 #include <fstream>
 #include <sstream>
-#include <vector>
+#include <list>
 
 using valueMap = std::map<std::string, float>;
+using valueMultimap = std::multimap<std::string, float>;
 
 class BitcoinExchange
 {
     private:
         valueMap _dataBaseMap;
-        valueMap _inputMap;
+        valueMultimap _inputMap;
     public:
         //Orthodox canonical form
         BitcoinExchange();
@@ -26,6 +27,7 @@ class BitcoinExchange
         void parseInputFile(const std::string& fileName);
         void calculateValues();
         void findClosest();
+        void printStoredDatabase();
 };
 
 #endif

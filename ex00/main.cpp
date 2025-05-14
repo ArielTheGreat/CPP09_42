@@ -10,7 +10,9 @@ int main(int argc, char**argv)
 	}
 
     BitcoinExchange btc;
+	//btc.printStoredDatabase();
     btc.parseDataBase("data.csv");
+	//btc.printStoredDatabase();
 	//btc.parseInputFile(argv[1]);
 	//btc.calculateValues();
     return (0);

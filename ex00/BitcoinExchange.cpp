@@ -18,12 +18,17 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other) {
 
 BitcoinExchange::~BitcoinExchange() {}
 
-std::vector<std::string> split(const std::string &s, char delimiter) {
-    std::vector<std::string> tokens;
+std::list<std::string> split(const std::string &s, char delimiter) {
+    std::list<std::string> tokens;
     std::string token;
     std::istringstream tokenStream(s);
     while (std::getline(tokenStream, token, delimiter)) {
-        tokens.push_back(token);
+        // Trim whitespace from tokens
+        token.erase(token.find_last_not_of(" \t\n\r\f\v") + 1);
+        token.erase(0, token.find_first_not_of(" \t\n\r\f\v"));
+        if (!token.empty()) {
+            tokens.push_back(token);
+        }
     }
     return tokens;
 }
@@ -39,12 +44,16 @@ void BitcoinExchange::parseDataBase(const std::string& fileName)
     std::string line;
     while(std::getline(file, line))
     {
-        std::vector<std::string> row = split(line, ',');
-
-        for (const auto &cell : row) {
-            std::cout << cell << "\t";
+        if (line.empty()) continue;
+        std::list<std::string> row = split(line, ',');
+        auto it = row.begin();
+        std::string key = *it++;
+        float valueStr = *it;
+        try{
+            size_t pos;
+            float value = std::stof(valueStr, &pos);
+            _dataBaseMap[key] = valueStr;
         }
-        std::cout << std::endl;
     }
     file.close();
 }
@@ -62,4 +71,16 @@ void BitcoinExchange::calculateValues()
 void BitcoinExchange::findClosest()
 {
 
+}
+
+void BitcoinExchange::printStoredDatabase()
+{
+    if (_dataBaseMap.size() == 0)
+        std::cout << "Size of container not enough to iterate through!" << std::endl;
+    else
+    {
+        for (const auto& [key, value] : _dataBaseMap) {
+            std::cout << key << " => " << value << std::endl;
+        }
+    }
 }
