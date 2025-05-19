@@ -24,7 +24,8 @@ class BitcoinExchange
 		~BitcoinExchange();
 
         void parseDataBase(const std::string& fileName);
-        void parseInputFile(const std::string& fileName);
+        void parseInputFileTxt(const std::string& fileName);
+        void parseLineInputFile(const std::string& line);
         void calculateValues();
         void findClosest();
         void printStoredDatabase();

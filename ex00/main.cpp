@@ -13,7 +13,7 @@ int main(int argc, char**argv)
 	//btc.printStoredDatabase();
     btc.parseDataBase("data.csv");
 	//btc.printStoredDatabase();
-	//btc.parseInputFile(argv[1]);
+	btc.parseInputFileTxt(argv[1]);
 	//btc.calculateValues();
     return (0);
 }
