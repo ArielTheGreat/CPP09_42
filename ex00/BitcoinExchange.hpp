@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include <vector>
 
 using valueMap = std::map<std::string, float>;
 using valueMultimap = std::multimap<std::string, float>;
@@ -26,8 +27,8 @@ class BitcoinExchange
         void parseDataBase(const std::string& fileName);
         void parseInputFileTxt(const std::string& fileName);
         void parseLineInputFile(const std::string& line);
+        void printMatch(const valueMultimap::value_type& pair);
         void calculateValues();
-        void findClosest();
         void printStoredDatabase();
 };
 

@@ -14,6 +14,6 @@ int main(int argc, char**argv)
     btc.parseDataBase("data.csv");
 	//btc.printStoredDatabase();
 	btc.parseInputFileTxt(argv[1]);
-	//btc.calculateValues();
+	btc.calculateValues();
     return (0);
 }

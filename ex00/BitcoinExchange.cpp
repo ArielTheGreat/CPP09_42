@@ -102,17 +102,116 @@ void BitcoinExchange::parseInputFileTxt(const std::string& fileName)
 		parseLineInputFile(line);
 	}
 }
-/*
+
+bool isNumeric(const std::string& str) {
+	int i = 0;
+	int len = str.length();
+	for (char ch : str)
+	{
+		if (ch == '.' && i != 0 && i != len -1)
+		continue;
+	if (!std::isdigit(ch))
+		{
+			// std::cout << ch << std::endl;
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
+
+bool isDateValid(const std::string& date)
+{
+	std::list<std::string> strList;
+    strList = split(date, '-');
+
+    if (strList.size() != 3) {
+        return false;
+    }
+
+    auto it = strList.begin();
+    std::string yearStr = *it++;  // First element (year)
+    std::string monthStr = *it++; // Second element (month)
+    std::string dayStr = *it; 
+
+	if (std::stoi(yearStr) > 2025 || std::stoi(monthStr) > 12 || std::stoi(dayStr) > 31)
+		return false;
+
+	for (auto& word : strList)
+	{
+		// std::cout << word << std::endl;
+		if (!isNumeric(word))
+			return false;
+	}
+	return true;
+}
+
+bool isValidFormat(const std::string& value)
+{
+	int count = std::count(value.begin(), value.end(), '.');
+	if (count > 1)
+		return false;
+	return true;
+}
+
+bool isValueValid(const std::string& value) {
+	if (!isNumeric(value) || !isValidFormat(value))
+		return false;
+	return true;
+}
+
+void BitcoinExchange::printMatch(const valueMultimap::value_type& pair) {
+    std::string inputDate = pair.first;
+	float inputValue = pair.second;
+
+    if (!isValueValid(std::to_string(inputValue))) {
+		std::cout << "Error: Bad Input (Input file) => " << inputValue << std::endl;
+		return;
+    }
+    else if (!isDateValid(inputDate))
+	{
+		std::cout << "Error: Date is Invalid (Input file) => " << inputDate << std::endl;
+		return;
+	} else if ( inputValue > 1000) {
+		std::cout << "Error: too large a number (Input file) => " << inputValue << std::endl;
+		return;
+	}
+
+	valueMap::iterator it =  _dataBaseMap.find(inputDate);
+	if ((it != _dataBaseMap.end()))
+	{
+		// std::cout << it->second  << " * " << inputValue << std::endl;
+		std::cout << inputDate << " => " << inputValue << " = " << it->second * inputValue << std::endl;
+	}
+	else
+	{
+		valueMultimap::value_type pairCopy = pair;
+		_dataBaseMap.insert(pairCopy);
+		it =  _dataBaseMap.find(inputDate);
+		if (it != _dataBaseMap.begin())
+			it--;
+		else
+			it++;
+
+		// std::cout << it->second  << " * " << inputValue << std::endl;
+		std::cout << inputDate << " => " << inputValue << " = " << inputValue * it->second << std::endl;
+		_dataBaseMap.erase(pairCopy.first);
+	}
+}
+
 void BitcoinExchange::calculateValues()
 {
+    std::string inputDate;
 
+	if (_dataBaseMap.empty() || _inputMap.empty())
+		return;
+    
+    for (const auto& pair : _inputMap)
+    {
+        printMatch(pair);
+    }
 }
 
-void BitcoinExchange::findClosest()
-{
-
-}
-*/
 void BitcoinExchange::printStoredDatabase()
 {
     if (_dataBaseMap.size() == 0)
