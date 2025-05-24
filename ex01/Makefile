@@ -1,7 +1,7 @@
 CXX = c++
 CXXFLAGS = -Werror -Wall -Wextra -std=c++17
 
-NAME = main
+NAME = RPN
 
 SRCS = main.cpp RPN.cpp
 OBJS = $(SRCS:.cpp=.o)
