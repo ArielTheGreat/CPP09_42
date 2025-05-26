@@ -12,14 +12,14 @@ using deque = std::deque<int>;
 
 class PmergeMe {
 	private:
-	vector _finalMain;
-	deque _finalMainDeque;
+		vector _finalMain;
+		deque _finalMainDeque;
 
-	TimePoint _vectorStart;
-	TimePoint _vectorEnd;
+		TimePoint _vectorStart;
+		TimePoint _vectorEnd;
 
-	TimePoint _dequeStart;
-	TimePoint _dequeEnd;
+		TimePoint _dequeStart;
+		TimePoint _dequeEnd;
 
 	public:
 		vector _mainChainVec;
