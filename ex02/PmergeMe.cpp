@@ -180,7 +180,10 @@ bool isNumeric(const std::string& str) {
 	for (char ch : str)
 	{
 		if (ch == '-' && i == 0 && str.length() != 1)
+		{
+			i++;
 			continue;
+		}
 		if (!std::isdigit(ch))
 			return false;
 		i++;
